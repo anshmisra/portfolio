@@ -1,51 +1,100 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import streamlit as st
-from streamlit.logger import get_logger
+import info
+import pandas as pd
 
-LOGGER = get_logger(__name__)
+#About Me
+def aboutMeSection():
+    st.header("🚀 About Me")
+    st.image(info.profile_picture,width = 250)
+    st.write(info.about_me)
+    st.write("---")
+aboutMeSection()
 
+#Sidebar Links
+def linksSection():
+    st.sidebar.header("Links")
+    st.sidebar.text("Connect with me on LinkedIn")
+    linkedinLink = f'<a href="{info.my_linkedin_url}"><img src="{info.linkedin_image_url}" alt="LinkedIn" width="75" height="75"></a>'
+    st.sidebar.markdown(linkedinLink,unsafe_allow_html = True)
+    st.sidebar.text("Checkout my work")
+    githubLink = f'<a href="{info.my_github_url}"><img src="{info.github_image_url}" alt="Github" width="65" height="65"></a>'
+    st.sidebar.markdown(githubLink,unsafe_allow_html = True)
+    st.sidebar.text("Or email me!")
+    emailHTML = f'<a href="mailto:{info.my_email_address}"><img src="{info.email_image_url}" alt="Email" width="75" height="75"></a>'
+    st.sidebar.markdown(emailHTML,unsafe_allow_html = True)
+linksSection()
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+#Education
+def educationSection(educationData,courseData):
+    st.header("📚 Education")
+    st.subheader(f"**{educationData['Institution']}**")
+    st.write(f"**Degree:** {educationData['Degree']}")
+    st.write(f"**Graduation Date:** {educationData['Graduation Date']}")
+    st.write(f"**GPA:** {educationData['GPA']}")
+    st.write("**Relevant Coursework:**")
+    coursework = pd.DataFrame(courseData)
+    st.dataframe(coursework,column_config={
+        "code": "Course Code",
+        "names": "Course Name",
+        "semester_taken": "Semester Taken",
+        "skills": "What I Learned"},
+        hide_index = True
+        )
+    st.write("---")
+educationSection(info.education_data,info.course_data)
 
-    st.write("# Welcome to Streamlit! 👋")
+#Professional Experience
+def experienceSection(experienceData):
+    st.header("💼 Professional Experience")
+    for jobTitle,(jobDescription,image) in experienceData.items():
+        expander = st.expander(f"**{jobTitle}**")
+        expander.image(image,width = 250)
+        for bullet in jobDescription:
+            expander.write(bullet)
+    st.write("---")
+experienceSection(info.experience_data)
 
-    st.sidebar.success("Select a demo above.")
+#Projects
+def projectSection(projectsData):
+    st.header("🛠️ Projects")
+    for projectName,(projectDescription,image,projectLink) in projectsData.items():
+        expander = st.expander(f"**{projectName}**")
+        expander.image(image,width = 250)
+        expander.write(f"[**{projectName}**]({projectLink})")
+        expander.write(projectDescription)
+    st.write("---")
+projectSection(info.projects_data)
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+#Skills
+def skillsSection(programmingData,spokenData):
+    st.header("🧑‍💻 Skills")
+    st.subheader("Programming Languages")
+    for skill,percentage in programmingData.items():
+        st.write(f"{skill} {info.programming_icons.get(skill)}")
+        st.progress(percentage)
+    st.subheader("Spoken Languages")
+    for spoken,proficiency in spokenData.items():
+        st.write(f"{spoken} {info.spoken_icons.get(spoken)}: {proficiency}")
+    st.write("---")
+skillsSection(info.programming_data,info.spoken_data)
 
-
-if __name__ == "__main__":
-    run()
+#Activities
+def activitiesSection(leadershipData,activityData):
+    st.header("🧗 Activities")
+    tab1,tab2 = st.tabs(["Leadership","Community Involvement"])
+    with tab1:
+        st.subheader("🎖️️ Leadership")
+        for title,(details,image) in leadershipData.items():
+            expander = st.expander(f"**{title}**")
+            expander.image(image,width = 250)
+            for bullet in details:
+                expander.write(bullet)
+    with tab2:
+        st.subheader("🤝 Community Involvement")
+        for title,(details,image) in activityData.items():
+            expander = st.expander(f"**{title}**")
+            expander.image(image,width = 250)
+            for bullet in details:
+                expander.write(bullet)
+    st.write("---")
+activitiesSection(info.leadership_data,info.activity_data)
