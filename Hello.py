@@ -9,7 +9,6 @@ def aboutMeSection():
     st.image(profile_picture,width = 250)
     st.write(about_me)
     st.write("---")
-aboutMeSection()
 
 #Sidebar Links
 linkedin_image_url = "https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg"
@@ -29,7 +28,6 @@ def linksSection():
     st.sidebar.text("Or email me!")
     emailHTML = f'<a href="mailto:{my_email_address}"><img src="{email_image_url}" alt="Email" width="75" height="75"></a>'
     st.sidebar.markdown(emailHTML,unsafe_allow_html = True)
-linksSection()
 
 #Education
 education_data ={
@@ -61,7 +59,6 @@ def educationSection(educationData,courseData):
         hide_index = True
         )
     st.write("---")
-educationSection(education_data,course_data)
 
 #Professional Experience
 experience_data = {
@@ -77,7 +74,6 @@ def experienceSection(experienceData):
         for bullet in jobDescription:
             expander.write(bullet)
     st.write("---")
-experienceSection(experience_data)
 
 #Projects
 projects_data = {
@@ -91,7 +87,6 @@ def projectSection(projectsData):
         expander.write(f"[**{projectName}**]({projectLink})")
         expander.write(projectDescription)
     st.write("---")
-projectSection(projects_data)
 
 #Skills
 programming_data = {
@@ -128,7 +123,6 @@ def skillsSection(programmingData,spokenData):
     for spoken,proficiency in spokenData.items():
         st.write(f"{spoken} {spoken_icons.get(spoken)}: {proficiency}")
     st.write("---")
-skillsSection(programming_data,spoken_data)
 
 #Activities
 leadership_data = {
@@ -158,4 +152,11 @@ def activitiesSection(leadershipData,activityData):
             for bullet in details:
                 expander.write(bullet)
     st.write("---")
+
+aboutMeSection()
+linksSection()
+educationSection(education_data,course_data)
+experienceSection(experience_data)
+projectSection(projects_data)
+skillsSection(programming_data,spoken_data)
 activitiesSection(leadership_data,activity_data)
