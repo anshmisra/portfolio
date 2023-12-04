@@ -5,7 +5,7 @@ import pandas as pd
 profile_picture = "cover.png"
 about_me = "I'm Ansh Misra. I am a first-year Neuroscience student at the Georgia Institute of Technology with an interest in cancer biology, psychology, and computer science. I am seeking opportunites in the medical industry, hoping to make a positive impact on society and all people I meet. I strive to be an active member in all aspects of the college community including academics, arts, and athletics."
 def aboutMeSection():
-    st.header("🚀 About Me")
+    st.header("🚀 About Me eat my ass")
     st.image(profile_picture,width = 250)
     st.write(about_me)
     st.write("---")
